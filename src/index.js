@@ -1,6 +1,6 @@
 import './css/style.css';
 import refs from "./js/refs";
-import {getImageAPI, resetPage} from "./js/api-serves";
+import {getImageAPI, resetPage, addPage} from "./js/api-serves";
 import {renderCardsImages,clearContainer} from "./js/markup-countries";
 
 
@@ -16,44 +16,66 @@ function onInputForm(evt) {
     
 };
 
-function onSubmitSearch(evt) {
+async function onSubmitSearch(evt) {
     evt.preventDefault();
     if (valueInput === '') {
         return
     };
 
     clearContainer();
+    resetPage();
+    refs.loadMoreBtn.classList.add('is-hidden');
+    
+    try {
+        const responce = await getImageAPI(valueInput);
+        const images = responce.data.hits;
 
-    getImageAPI(valueInput)
-        .then(responce => {
-
-        const imagesData = responce.data
-        const images = imagesData.hits
-        
         if (images.length === 0) {
             return alert("Sorry, there are no images matching your search query. Please try again."); 
         };
 
-        renderCardsImages(imagesData);
-    }).catch(err => console.log('err'));
+        refs.loadMoreBtn.classList.remove('is-hidden');
+
+        renderCardsImages(images);
+        
+    } catch (error) {
+        console.log('err');
+    };
+
+    // getImageAPI(valueInput)
+    //     .then(responce => {
+
+    //     const imagesData = responce.data
+    //     const images = imagesData.hits
+        
+    //     if (images.length === 0) {
+    //         return alert("Sorry, there are no images matching your search query. Please try again."); 
+    //     };
+
+    //     renderCardsImages(imagesData);
+    // }).catch(err => console.log('err'));
     
 };
 
 
+async function onloadMoreBtnClick() {
+    refs.loadMoreBtn.setAttribute('disabled',true)
+    try {
+        addPage();
+        const responce = await getImageAPI(valueInput);
+        const images = responce.data.hits;
 
-function onloadMoreBtnClick() {
-    getImageAPI(valueInput)
-        .then(responce => {
-
-        const imagesData = responce.data
-        const images = imagesData.hits
-        
         if (images.length === 0) {
             return alert("Sorry, there are no images matching your search query. Please try again."); 
         };
 
-        renderCardsImages(imagesData);
-    }).catch(err => console.log('err'));
+        refs.loadMoreBtn.removeAttribute('disabled')
+
+        renderCardsImages(images);
+        
+    } catch (error) {
+        console.log('err');
+    };
     
 }
 

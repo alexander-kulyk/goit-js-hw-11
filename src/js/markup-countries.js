@@ -1,8 +1,8 @@
 import refs from "./refs";
 
 
-function renderCardsImages(imagesData) {
-    const images = imagesData.hits
+function renderCardsImages(images) {
+   
     const markup = images.map(image => {
         const {webformatURL, largeImageURL, tags, likes, views, comments, downloads} = image;
         return `

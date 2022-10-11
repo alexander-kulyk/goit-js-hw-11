@@ -6,3 +6,7 @@
 .photo-card{
     margin: 5px;
 }
+
+.load-more.is-hidden{
+    opacity: 0;
+}
