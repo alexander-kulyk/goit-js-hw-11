@@ -6,6 +6,7 @@ import {renderCardsImages,clearContainer} from "./js/markup-countries";
 
 
 let valueInput = '';
+let imagesQuantity = 0;
 
 
 refs.form.addEventListener('input',onInputForm);
@@ -31,16 +32,16 @@ async function onSubmitSearch(evt) {
         const responce = await getImageAPI(valueInput);
         const images = responce.data.hits;
         const totalImages = responce.data.total;
-
         console.log(responce);
-        console.log(images);
+
+        imagesQuantity = images.length
 
         if (images.length === 0) {
             return Notiflix.Notify.info("Sorry, there are no images matching your search query. Please try again.");
         };
         
         Notiflix.Loading.pulse('Loading...');
-        Notiflix.Loading.remove(1500);
+        Notiflix.Loading.remove(1000);
         Notiflix.Notify.success(`Hooray! We found totalHits: ${totalImages} images.`);
 
         refs.loadMoreBtn.classList.remove('is-hidden');
@@ -76,9 +77,11 @@ async function onloadMoreBtnClick() {
         addPage();
         const responce = await getImageAPI(valueInput);
         const images = responce.data.hits;
-        Notiflix.Loading.remove(1500);
-        console.log(responce);
-        console.log(images);
+        const totalHits = responce.data.totalHits
+        
+        imagesQuantityFn(images, totalHits);
+        
+        Notiflix.Loading.remove(1000);
 
         refs.loadMoreBtn.removeAttribute('disabled')
 
@@ -88,7 +91,25 @@ async function onloadMoreBtnClick() {
         console.log('err');
     };
     
-}
+};
+
+function imagesQuantityFn(images, totalHits) {
+    
+    imagesQuantity = imagesQuantity + images.length;
+        
+    if (imagesQuantity > totalHits) {
+
+        refs.loadMoreBtn.classList.add('is-hidden');
+        Notiflix.Loading.remove();
+            
+        return Notiflix.Report.info("OOPS 🙊","We're sorry, but you've reached the end of search results.", 'OK')
+    };
+};
+
+
+
+
+
 
 
 
