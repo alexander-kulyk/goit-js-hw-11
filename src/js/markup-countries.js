@@ -1,4 +1,6 @@
 import refs from "./refs";
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css"
 
 
 function renderCardsImages(images) {
@@ -7,7 +9,8 @@ function renderCardsImages(images) {
         const {webformatURL, largeImageURL, tags, likes, views, comments, downloads} = image;
         return `
             <div class="photo-card">
-                <img src="${webformatURL}" alt="${tags}" loading="lazy" width="320px" />
+                <a class="gallery__item" href="${largeImageURL}">
+                <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" width="320px" />
                 <div class="info">
                     <p class="info-item">
                         <b>Likes: ${likes}</b>
@@ -34,6 +37,6 @@ function clearContainer() {
     
 };
 
-
+const lightbox = new SimpleLightbox('.gallery .gallery__item', {captionsData:'alt',captionDelay: 250});
 
 export {renderCardsImages,clearContainer}

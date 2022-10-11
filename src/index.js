@@ -1,5 +1,6 @@
 import './css/style.css';
 import refs from "./js/refs";
+import Notiflix from 'notiflix'
 import {getImageAPI, resetPage, addPage} from "./js/api-serves";
 import {renderCardsImages,clearContainer} from "./js/markup-countries";
 
@@ -29,10 +30,18 @@ async function onSubmitSearch(evt) {
     try {
         const responce = await getImageAPI(valueInput);
         const images = responce.data.hits;
+        const totalImages = responce.data.total;
+
+        console.log(responce);
+        console.log(images);
 
         if (images.length === 0) {
-            return alert("Sorry, there are no images matching your search query. Please try again."); 
+            return Notiflix.Notify.info("Sorry, there are no images matching your search query. Please try again.");
         };
+        
+        Notiflix.Loading.pulse('Loading...');
+        Notiflix.Loading.remove(1500);
+        Notiflix.Notify.success(`Hooray! We found totalHits: ${totalImages} images.`);
 
         refs.loadMoreBtn.classList.remove('is-hidden');
 
@@ -59,15 +68,17 @@ async function onSubmitSearch(evt) {
 
 
 async function onloadMoreBtnClick() {
+    
+    Notiflix.Loading.pulse('Loading...');
     refs.loadMoreBtn.setAttribute('disabled',true)
+   
     try {
         addPage();
         const responce = await getImageAPI(valueInput);
         const images = responce.data.hits;
-
-        if (images.length === 0) {
-            return alert("Sorry, there are no images matching your search query. Please try again."); 
-        };
+        Notiflix.Loading.remove(1500);
+        console.log(responce);
+        console.log(images);
 
         refs.loadMoreBtn.removeAttribute('disabled')
 
