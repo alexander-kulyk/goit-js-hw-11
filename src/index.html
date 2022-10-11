@@ -9,20 +9,24 @@
   </head>
   <body>
 
-    <form class="search-form" id="search-form">
-      <input
-        type="text"
-        name="searchQuery"
-        autocomplete="off"
-        placeholder="Search images..."
-      />
-      <button type="submit">Search</button>
-    </form>
+    <div class="conteiner-form">
+      <form class="search-form" id="search-form">
+        <input
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button type="submit">Search</button>
+      </form>
+    </div>
 
     <div class="gallery">
       <!-- Картки зображень -->
     </div>
-    <button type="button" class="load-more is-hidden">Load more</button>
+    <div class="conteiner-btn-more">
+      <button type="button" class="load-more is-hidden">More</button>
+    </div>
   
   </body>
 </html>
