@@ -7,6 +7,8 @@ import {renderCardsImages,clearContainer} from "./js/markup-countries";
 
 let valueInput = '';
 let imagesQuantity = 0;
+let checkBox  = false
+let orientationImage =''
 
 
 refs.form.addEventListener('input',onInputForm);
@@ -14,25 +16,35 @@ refs.form.addEventListener('submit', onSubmitSearch);
 refs.loadMoreBtn.addEventListener('click', onloadMoreBtnClick)
 
 function onInputForm(evt) {
-    valueInput = evt.target.value.trim();
-    
+    valueInput = evt.currentTarget.elements.searchQuery.value;  
 };
 
 async function onSubmitSearch(evt) {
     evt.preventDefault();
+
     if (valueInput === '') {
         return
     };
-
+    
     clearContainer();
     resetPage();
+
+    checkBox = evt.currentTarget.elements.switch.checked;
+    if (checkBox === true) {
+        orientationImage = 'vertical';
+        
+    } ;
+    if (checkBox !== true) {
+        orientationImage = 'horizontal'
+        
+    };
+
     refs.loadMoreBtn.classList.add('is-hidden');
     
     try {
-        const responce = await getImageAPI(valueInput);
+        const responce = await getImageAPI(valueInput, orientationImage);
         const images = responce.data.hits;
         const totalImages = responce.data.total;
-        console.log(responce);
 
         imagesQuantity = images.length
 
@@ -42,7 +54,9 @@ async function onSubmitSearch(evt) {
         
         Notiflix.Loading.pulse('Loading...');
         Notiflix.Loading.remove(1000);
-        Notiflix.Notify.success(`Hooray! We found totalHits: ${totalImages} images.`);
+        Notiflix.Notify.success(`Hooray! We found totalHits: ${totalImages} images.`,{
+            timeout: 5000,
+          });
 
         refs.loadMoreBtn.classList.remove('is-hidden');
 
@@ -51,19 +65,6 @@ async function onSubmitSearch(evt) {
     } catch (error) {
         console.log('err');
     };
-
-    // getImageAPI(valueInput)
-    //     .then(responce => {
-
-    //     const imagesData = responce.data
-    //     const images = imagesData.hits
-        
-    //     if (images.length === 0) {
-    //         return alert("Sorry, there are no images matching your search query. Please try again."); 
-    //     };
-
-    //     renderCardsImages(imagesData);
-    // }).catch(err => console.log('err'));
     
 };
 
@@ -75,7 +76,7 @@ async function onloadMoreBtnClick() {
    
     try {
         addPage();
-        const responce = await getImageAPI(valueInput);
+        const responce = await getImageAPI(valueInput,orientationImage);
         const images = responce.data.hits;
         const totalHits = responce.data.totalHits
         
@@ -108,6 +109,21 @@ function imagesQuantityFn(images, totalHits) {
 
 
 
+
+//----then-----
+
+// getImageAPI(valueInput)
+    //     .then(responce => {
+
+    //     const imagesData = responce.data
+    //     const images = imagesData.hits
+        
+    //     if (images.length === 0) {
+    //         return alert("Sorry, there are no images matching your search query. Please try again."); 
+    //     };
+
+    //     renderCardsImages(imagesData);
+    // }).catch(err => console.log('err'));
 
 
 

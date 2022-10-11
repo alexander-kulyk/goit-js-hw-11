@@ -4,9 +4,9 @@ const BASE_URL = 'https://pixabay.com/api'
 
 let page = 1;
 
-async function getImageAPI(valueInput) {
+async function getImageAPI(valueInput, orientationImage) {
     
-    return await axios.get(`${BASE_URL}/?key=${API_KEY}&q=${valueInput}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`)
+    return await axios.get(`${BASE_URL}/?key=${API_KEY}&q=${valueInput}&image_type=photo&orientation=${orientationImage}&safesearch=true&page=${page}&per_page=40`)
 };
 function resetPage() {
     page = 1;
