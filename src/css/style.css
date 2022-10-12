@@ -5,11 +5,11 @@
 
     padding: 20px 0;
 }
-image{
-    width: 100%;
-    height: auto;
+img {
     display: block;
-}
+    max-width: 100%;
+    height: auto;
+  }
 a{
     text-decoration: none
 }
@@ -32,7 +32,7 @@ a{
 }
 .photo-card:hover{
     cursor: pointer;
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06), 1px 4px 6px rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.20), 1px 4px 6px rgba(0, 0, 0, 0.30);
 }
 .info{
     display: flex;
@@ -66,6 +66,7 @@ span{
 
     height: 150px;
     background-color: rgb(150, 150, 150, 0.2);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.10), 0px 4px 4px rgba(0, 0, 0, 0.05), 1px 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 input{
@@ -97,11 +98,13 @@ button:hover{
     display: flex;
     justify-content: center;
 
+    margin-bottom: 30px;
+
 }
 /* -------choose------------ */
 .choose{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 .choose__item{
@@ -111,6 +114,7 @@ button:hover{
 .choose_label{
     color: #757575;
 }
+
 /* ---------checkbox----------- */
 
 .checkbox-container{

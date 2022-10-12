@@ -38,6 +38,7 @@ async function onSubmitSearch(evt) {
         return
     };
 
+    // --------choose perPage-------------------
     perPage = evt.currentTarget.elements.perPage.value
 
 
@@ -46,8 +47,9 @@ async function onSubmitSearch(evt) {
     checkBox === true
         ?orientationImage = 'vertical'
         : orientationImage = 'horizontal';
+        
 
-
+    //-------------responce API----------------------------------
     try {
         const responce = await getImageAPI(valueInput, orientationImage, perPage);
         const images = responce.data.hits;
