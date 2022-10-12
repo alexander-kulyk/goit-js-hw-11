@@ -8,9 +8,9 @@ import "simplelightbox/dist/simple-lightbox.min.css"
 
 function renderCardsImages(images) {
    
-    const markup = images.map(image => {
+    const markup = images.reduce((acc,image) => {
         const {webformatURL, largeImageURL, tags, likes, views, comments, downloads} = image;
-        return `
+        return acc + `
         <a class="gallery__item" href="${largeImageURL}">
             <div class="photo-card">
                 <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" width="320px" />
@@ -31,9 +31,11 @@ function renderCardsImages(images) {
             </div>
         </a>`
 
-    }).join('');
-    
+    },'');
+
     refs.gallary.insertAdjacentHTML('beforeend', markup);
+    let lightbox = new SimpleLightbox('.gallery a');
+
 };
 
 function clearContainer() {
@@ -43,7 +45,6 @@ function clearContainer() {
 
 
 
-let lightbox = new SimpleLightbox('.gallery a');
 
 
 

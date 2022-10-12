@@ -10,6 +10,9 @@ image{
     height: auto;
     display: block;
 }
+a{
+    text-decoration: none
+}
 
 .photo-card{
     margin: 5px;
@@ -33,10 +36,7 @@ image{
 }
 .info{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    padding-left: 15px;
+    justify-content: space-around;
 
 }
 
@@ -44,6 +44,11 @@ p{
     margin: 5px 0;
     font-size: 15px;
     color: #757575;
+
+}
+b{
+    display: flex;
+    flex-direction: column;
 }
 span{
     font-size: 12px;
@@ -59,7 +64,7 @@ span{
     justify-content: center;
     align-items: center;
 
-    height: 130px;
+    height: 150px;
     background-color: rgb(150, 150, 150, 0.2);
 }
 
@@ -91,6 +96,20 @@ button:hover{
 .conteiner-btn-more{
     display: flex;
     justify-content: center;
+
+}
+/* -------choose------------ */
+.choose{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.choose__item{
+    width: 12px;
+    height: 12px;
+}
+.choose_label{
+    color: #757575;
 }
 /* ---------checkbox----------- */
 

@@ -1,7 +1,7 @@
 import './css/style.css';
 import refs from "./js/refs";
 import Notiflix from 'notiflix'
-import SimpleLightbox from "simplelightbox";
+
 import "simplelightbox/dist/simple-lightbox.min.css"
 import {getImageAPI, resetPage, addPage} from "./js/api-serves";
 import {renderCardsImages,clearContainer} from "./js/markup-countries";
@@ -11,6 +11,7 @@ let valueInput = '';
 let imagesQuantity = 0;
 let checkBox  = false
 let orientationImage =''
+let perPage = 0;
 
 
 refs.form.addEventListener('input',onInputForm);
@@ -21,30 +22,34 @@ function onInputForm(evt) {
     valueInput = evt.currentTarget.elements.searchQuery.value;  
 };
 
+
+
+//-----------------Submit------------------------------------
+
 async function onSubmitSearch(evt) {
     evt.preventDefault();
+    clearContainer();
+    resetPage();
+
+    refs.loadMoreBtn.classList.add('is-hidden');
+
 
     if (valueInput === '') {
         return
     };
-    
-    clearContainer();
-    resetPage();
 
+    perPage = evt.currentTarget.elements.perPage.value
+
+
+    //--------checkBox------------
     checkBox = evt.currentTarget.elements.switch.checked;
-    if (checkBox === true) {
-        orientationImage = 'vertical';
-        
-    } ;
-    if (checkBox !== true) {
-        orientationImage = 'horizontal'
-        
-    };
+    checkBox === true
+        ?orientationImage = 'vertical'
+        : orientationImage = 'horizontal';
 
-    refs.loadMoreBtn.classList.add('is-hidden');
-    
+
     try {
-        const responce = await getImageAPI(valueInput, orientationImage);
+        const responce = await getImageAPI(valueInput, orientationImage, perPage);
         const images = responce.data.hits;
         const totalImages = responce.data.total;
 
@@ -65,21 +70,24 @@ async function onSubmitSearch(evt) {
         renderCardsImages(images);
         
     } catch (error) {
-        console.log('err');
+        console.log(error.message);
+        Notiflix.Notify.failure('Sorry! Something went wrong! Try again!');
     };
     
 };
 
 
+
+
+//---------------loadMoreBtn------------------
 async function onloadMoreBtnClick() {
     
     Notiflix.Loading.pulse('Loading...');
-    refs.loadMoreBtn.setAttribute('disabled',true)
-    SimpleLightbox.refresh()
+    refs.loadMoreBtn.setAttribute('disabled',true);
    
     try {
         addPage();
-        const responce = await getImageAPI(valueInput,orientationImage);
+        const responce = await getImageAPI(valueInput,orientationImage, perPage);
         const images = responce.data.hits;
         const totalHits = responce.data.totalHits
         
@@ -92,11 +100,14 @@ async function onloadMoreBtnClick() {
         renderCardsImages(images);
         
     } catch (error) {
-        console.log('err');
+        console.log(error.message);
+        Notiflix.Notify.failure('Sorry! Something went wrong! Try again!');
     };
     
 };
 
+
+//-----------------------imagesQuantity------------------------------------
 function imagesQuantityFn(images, totalHits) {
     
     imagesQuantity = imagesQuantity + images.length;
