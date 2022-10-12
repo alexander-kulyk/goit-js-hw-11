@@ -1,6 +1,7 @@
 export {renderCardsImages,clearContainer};
 
 import refs from "./refs";
+
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css"
 
@@ -42,7 +43,7 @@ function clearContainer() {
 
 
 
-let lightbox = new SimpleLightbox('.gallery a', { close: true});
+let lightbox = new SimpleLightbox('.gallery a');
 
 
 
