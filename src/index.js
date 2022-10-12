@@ -1,6 +1,8 @@
 import './css/style.css';
 import refs from "./js/refs";
 import Notiflix from 'notiflix'
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css"
 import {getImageAPI, resetPage, addPage} from "./js/api-serves";
 import {renderCardsImages,clearContainer} from "./js/markup-countries";
 
@@ -73,6 +75,7 @@ async function onloadMoreBtnClick() {
     
     Notiflix.Loading.pulse('Loading...');
     refs.loadMoreBtn.setAttribute('disabled',true)
+    SimpleLightbox.refresh()
    
     try {
         addPage();

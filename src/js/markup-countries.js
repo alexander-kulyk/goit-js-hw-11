@@ -1,5 +1,7 @@
+export {renderCardsImages,clearContainer};
+
 import refs from "./refs";
-// import SimpleLightbox from "simplelightbox";
+import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css"
 
 
@@ -8,6 +10,7 @@ function renderCardsImages(images) {
     const markup = images.map(image => {
         const {webformatURL, largeImageURL, tags, likes, views, comments, downloads} = image;
         return `
+        <a class="gallery__item" href="${largeImageURL}">
             <div class="photo-card">
                 <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" width="320px" />
                 <div class="info">
@@ -18,13 +21,14 @@ function renderCardsImages(images) {
                         <b>Views:<span>${views}</span> </b>
                     </p>
                     <p class="info-item">
-                         <b>Comments:<span>${comments}</span> </b>
+                        <b>Comments:<span>${comments}</span> </b>
                     </p>
                     <p class="info-item">
                         <b>Downloads:<span>${downloads}</span></b>
                     </p>
                 </div>
-            </div>`
+            </div>
+        </a>`
 
     }).join('');
     
@@ -36,8 +40,9 @@ function clearContainer() {
     
 };
 
-//<a class="gallery__item" href="${largeImageURL}"></a>
 
-//const lightbox = new SimpleLightbox('.gallery .gallery__item', {captionsData:'alt',captionDelay: 250});
 
-export {renderCardsImages,clearContainer}
+let lightbox = new SimpleLightbox('.gallery a', { close: true});
+
+
+
