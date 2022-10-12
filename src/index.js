@@ -46,14 +46,15 @@ async function onSubmitSearch(evt) {
     checkBox = evt.currentTarget.elements.switch.checked;
     checkBox === true
         ?orientationImage = 'vertical'
-        : orientationImage = 'horizontal';
-        
+        :orientationImage = 'horizontal';
+
 
     //-------------responce API----------------------------------
     try {
         const responce = await getImageAPI(valueInput, orientationImage, perPage);
         const images = responce.data.hits;
         const totalImages = responce.data.total;
+        const totalHits = responce.data.totalHits
 
         imagesQuantity = images.length
 
@@ -63,8 +64,8 @@ async function onSubmitSearch(evt) {
         
         Notiflix.Loading.pulse('Loading...');
         Notiflix.Loading.remove(1000);
-        Notiflix.Notify.success(`Hooray! We found totalHits: ${totalImages} images.`,{
-            timeout: 5000,
+        Notiflix.Notify.success(`Hooray! We found total: ${totalImages} images. You have free access to ${totalHits}`,{
+            timeout: 6000,
           });
 
         refs.loadMoreBtn.classList.remove('is-hidden');
