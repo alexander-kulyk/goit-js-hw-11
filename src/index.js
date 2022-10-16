@@ -24,12 +24,28 @@ const observer = new IntersectionObserver(onLoad, options);
 
 refs.form.addEventListener('input',onInputForm);
 refs.form.addEventListener('submit', onSubmitSearch);
-// refs.loadMoreBtn.addEventListener('click', onloadMoreBtnClick)
+refs.input.addEventListener('input', onInput);
+refs.clearInputBtn.addEventListener('click', onClearInput);
+// refs.loadMoreBtn.addEventListener('click', onloadMoreBtnClick);
 
+console.log(refs.input);
+
+
+//-----------------Input-----------------------------------
 function onInputForm(evt) {
-    valueInput = evt.currentTarget.elements.searchQuery.value.trim();  
+    valueInput = evt.currentTarget.elements.searchQuery.value.trim(); 
 };
 
+function onInput() {
+    refs.clearInputBtn.removeAttribute('hidden'); 
+};
+
+
+function onClearInput() {
+    refs.form.reset();
+    refs.clearInputBtn.setAttribute('hidden',true)   
+    
+};
 
 
 //-----------------Submit------------------------------------

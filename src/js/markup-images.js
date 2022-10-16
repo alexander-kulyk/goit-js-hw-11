@@ -1,22 +1,16 @@
 export {renderCardsImages,clearContainer};
 
 import refs from "./refs";
-
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css"
 
 
 function renderCardsImages(images,orientationImage) {
    
-    if (orientationImage === 'vertical') {
-       markupForVerticalImg(images,);
-       return;
-    };
-    if (orientationImage === 'horizontal') {
-        markupForHorizontalImg(images);
-        return;
-        
-    };
+    orientationImage === 'vertical'
+    ? markupForVerticalImg(images)
+    : markupForHorizontalImg(images)
+    
 };
 
 

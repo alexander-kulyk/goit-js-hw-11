@@ -1,7 +1,7 @@
 html {
   scroll-behavior: smooth;
 }
-
+/* --------gallery------------ */
 .gallery{
     display: flex;
     flex-wrap: wrap;
@@ -9,6 +9,31 @@ html {
 
     padding: 20px 0;
 }
+
+
+/* ----------Form------------    */
+.conteiner-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 150px;
+  background-color: rgb(150, 150, 150, 0.2);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.10), 
+  0px 4px 4px rgba(0, 0, 0, 0.05), 
+  1px 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+input{
+  padding-left: 10px;
+  width: 300px;
+  height: 40px;
+
+  border: 1px solid rgb(225, 224, 224);
+  border-radius: 5px;
+}
+
+/* -------Image----------------- */
 img {
     display: block;
     max-width: 100%;
@@ -22,7 +47,7 @@ img {
   height: 420px;
   width: 310px;
 }
-
+/* ----------------Photo card-------------------- */
 a{
     text-decoration: none
 }
@@ -67,32 +92,28 @@ span{
     font-size: 12px;
 }
 
-.load-more.is-hidden{
-    opacity: 0;
-    
+
+/* -------------Btn------------------ */
+
+.clear-btn{
+  position: absolute;
+
+  width: 30px;
+  height: 30px;
+  left: 54.7%;
+  top: 2%;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  cursor: pointer;
+} 
+.clear-btn:hover{
+  transform: scale(1.1);
 }
 
-.conteiner-form{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 150px;
-    background-color: rgb(150, 150, 150, 0.2);
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.10), 
-    0px 4px 4px rgba(0, 0, 0, 0.05), 
-    1px 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-input{
-    padding-left: 10px;
-    width: 300px;
-    height: 40px;
-
-    border: 1px solid rgb(225, 224, 224);
-    border-radius: 5px;
-}
-button{
+.search-btn,.load-more{
     width: 70px;
     height: 40px;
 
@@ -109,10 +130,14 @@ button{
     1px 4px 6px rgba(0, 0, 0, 0.10);
 }
 
-button:hover{
+.search-btn:hover, .load-more:hover{
     background-color: rgb(2, 104, 111);
 }
 
+.load-more.is-hidden{
+  opacity: 0;
+  
+}
 .conteiner-btn-more{
     display: flex;
     justify-content: center;
@@ -120,6 +145,10 @@ button:hover{
     margin-bottom: 30px;
 
 }
+
+
+
+
 /* -------choose------------ */
 .choose{
     display: flex;
