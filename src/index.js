@@ -19,7 +19,7 @@ refs.form.addEventListener('submit', onSubmitSearch);
 refs.loadMoreBtn.addEventListener('click', onloadMoreBtnClick)
 
 function onInputForm(evt) {
-    valueInput = evt.currentTarget.elements.searchQuery.value;  
+    valueInput = evt.currentTarget.elements.searchQuery.value.trim();  
 };
 
 
@@ -35,11 +35,12 @@ async function onSubmitSearch(evt) {
 
 
     if (valueInput === '') {
+        Notiflix.Notify.info("Yo! Write something ;-)");
         return
     };
 
     // --------choose perPage-------------------
-    perPage = evt.currentTarget.elements.perPage.value
+    perPage = evt.currentTarget.elements.perPage.value.trim()
 
 
     //--------checkBox------------
@@ -55,6 +56,8 @@ async function onSubmitSearch(evt) {
         const images = responce.data.hits;
         const totalImages = responce.data.total;
         const totalHits = responce.data.totalHits
+
+        console.log(responce);
 
         imagesQuantity = images.length
 
@@ -93,8 +96,9 @@ async function onloadMoreBtnClick() {
         const responce = await getImageAPI(valueInput,orientationImage, perPage);
         const images = responce.data.hits;
         const totalHits = responce.data.totalHits
+        const totalImages = responce.data.total;
         
-        imagesQuantityFn(images, totalHits);
+        imagesQuantityFn(images, totalHits,totalImages);
         
         Notiflix.Loading.remove(1000);
 
@@ -111,9 +115,10 @@ async function onloadMoreBtnClick() {
 
 
 //-----------------------imagesQuantity------------------------------------
-function imagesQuantityFn(images, totalHits) {
+function imagesQuantityFn(images, totalHits,totalImages) {
     
     imagesQuantity = imagesQuantity + images.length;
+    console.log(imagesQuantity);
         
     if (imagesQuantity > totalHits) {
 
@@ -121,6 +126,12 @@ function imagesQuantityFn(images, totalHits) {
         Notiflix.Loading.remove();
             
         return Notiflix.Report.info("OOPS 🙊","We're sorry, but you've reached the end of search results.", 'OK')
+    };
+
+    if (imagesQuantity === totalImages) {
+        refs.loadMoreBtn.classList.add('is-hidden');
+        refs.loadMoreBtn.setAttribute('disabled',true);
+
     };
 };
 
@@ -141,12 +152,5 @@ function imagesQuantityFn(images, totalHits) {
 
     //     renderCardsImages(imagesData);
     // }).catch(err => console.log('err'));
-
-
-
-
-
-
-
 
 
