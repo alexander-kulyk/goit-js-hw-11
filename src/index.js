@@ -4,7 +4,7 @@ import Notiflix from 'notiflix'
 
 import "simplelightbox/dist/simple-lightbox.min.css"
 import {getImageAPI, resetPage, addPage} from "./js/api-serves";
-import {renderCardsImages,clearContainer} from "./js/markup-countries";
+import {renderCardsImages,clearContainer} from "./js/markup-images";
 
 
 let valueInput = '';
@@ -13,10 +13,18 @@ let checkBox  = false
 let orientationImage =''
 let perPage = 0;
 
+const options = {
+    root: null,
+    rootMargin: '20px',
+    threshold: 1
+}
+
+const observer = new IntersectionObserver(onLoad, options); 
+
 
 refs.form.addEventListener('input',onInputForm);
 refs.form.addEventListener('submit', onSubmitSearch);
-refs.loadMoreBtn.addEventListener('click', onloadMoreBtnClick)
+// refs.loadMoreBtn.addEventListener('click', onloadMoreBtnClick)
 
 function onInputForm(evt) {
     valueInput = evt.currentTarget.elements.searchQuery.value.trim();  
@@ -31,7 +39,7 @@ async function onSubmitSearch(evt) {
     clearContainer();
     resetPage();
 
-    refs.loadMoreBtn.classList.add('is-hidden');
+    // refs.loadMoreBtn.classList.add('is-hidden');
 
 
     if (valueInput === '') {
@@ -39,11 +47,11 @@ async function onSubmitSearch(evt) {
         return
     };
 
-    // --------choose perPage-------------------
+    // --------choose perPage----------------------------------
     perPage = evt.currentTarget.elements.perPage.value.trim()
 
 
-    //--------checkBox------------
+    //--------checkBox------------------------------------------
     checkBox = evt.currentTarget.elements.switch.checked;
     checkBox === true
         ?orientationImage = 'vertical'
@@ -56,8 +64,7 @@ async function onSubmitSearch(evt) {
         const images = responce.data.hits;
         const totalImages = responce.data.total;
         const totalHits = responce.data.totalHits
-
-        console.log(responce);
+        observer.observe(refs.guard);
 
         imagesQuantity = images.length
 
@@ -71,9 +78,9 @@ async function onSubmitSearch(evt) {
             timeout: 6000,
           });
 
-        refs.loadMoreBtn.classList.remove('is-hidden');
+        // refs.loadMoreBtn.classList.remove('is-hidden');
 
-        renderCardsImages(images);
+        renderCardsImages(images,orientationImage);
         
     } catch (error) {
         console.log(error.message);
@@ -83,38 +90,67 @@ async function onSubmitSearch(evt) {
 };
 
 
+
+function onLoad(entries) {
+    console.log(entries);
+    entries.forEach(async entry =>{
+        if (entry.isIntersecting) {
+
+            Notiflix.Loading.pulse('Loading...');
+
+            try {
+                addPage();
+                const responce = await getImageAPI(valueInput,orientationImage, perPage);
+                const images = responce.data.hits;
+                const totalHits = responce.data.totalHits
+                const totalImages = responce.data.total;
+        
+                imagesQuantityFn(images, totalHits,totalImages);
+        
+                Notiflix.Loading.remove(1000);
+
+                renderCardsImages(images,orientationImage);
+        
+            } catch (error) {
+                console.log(error.message);
+                Notiflix.Notify.failure('Sorry! Something went wrong! Try again!');
+            };
+        }
+    });
+    
+};
 
 
 //---------------loadMoreBtn------------------
-async function onloadMoreBtnClick() {
+// async function onloadMoreBtnClick() {
     
-    Notiflix.Loading.pulse('Loading...');
-    refs.loadMoreBtn.setAttribute('disabled',true);
+//     Notiflix.Loading.pulse('Loading...');
+//     refs.loadMoreBtn.setAttribute('disabled',true);
    
-    try {
-        addPage();
-        const responce = await getImageAPI(valueInput,orientationImage, perPage);
-        const images = responce.data.hits;
-        const totalHits = responce.data.totalHits
-        const totalImages = responce.data.total;
+//     try {
+//         addPage();
+//         const responce = await getImageAPI(valueInput,orientationImage, perPage);
+//         const images = responce.data.hits;
+//         const totalHits = responce.data.totalHits
+//         const totalImages = responce.data.total;
         
-        imagesQuantityFn(images, totalHits,totalImages);
+//         imagesQuantityFn(images, totalHits,totalImages);
         
-        Notiflix.Loading.remove(1000);
+//         Notiflix.Loading.remove(1000);
 
-        refs.loadMoreBtn.removeAttribute('disabled')
+//         refs.loadMoreBtn.removeAttribute('disabled')
 
-        renderCardsImages(images);
+//         renderCardsImages(images);
         
-    } catch (error) {
-        console.log(error.message);
-        Notiflix.Notify.failure('Sorry! Something went wrong! Try again!');
-    };
+//     } catch (error) {
+//         console.log(error.message);
+//         Notiflix.Notify.failure('Sorry! Something went wrong! Try again!');
+//     };
     
-};
+// };
 
 
-//-----------------------imagesQuantity------------------------------------
+//-----------------------imagesQuantity----кількісь зображень---------------------------------
 function imagesQuantityFn(images, totalHits,totalImages) {
     
     imagesQuantity = imagesQuantity + images.length;
@@ -122,15 +158,17 @@ function imagesQuantityFn(images, totalHits,totalImages) {
         
     if (imagesQuantity > totalHits) {
 
-        refs.loadMoreBtn.classList.add('is-hidden');
+        // refs.loadMoreBtn.classList.add('is-hidden');
+        observer.unobserve(refs.guard);
         Notiflix.Loading.remove();
-            
-        return Notiflix.Report.info("OOPS 🙊","We're sorry, but you've reached the end of search results.", 'OK')
+        Notiflix.Report.info("OOPS 🙊","We're sorry, but you've reached the end of search results.", 'OK')    
+        return 
     };
 
     if (imagesQuantity === totalImages) {
-        refs.loadMoreBtn.classList.add('is-hidden');
-        refs.loadMoreBtn.setAttribute('disabled',true);
+        observer.unobserve(refs.guard);
+        // refs.loadMoreBtn.classList.add('is-hidden');
+        // refs.loadMoreBtn.setAttribute('disabled',true);
 
     };
 };
