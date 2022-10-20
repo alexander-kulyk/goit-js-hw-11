@@ -106,6 +106,7 @@ async function onSubmitSearch(evt) {
 };
 
 
+// -------------infinite scroll----------------------------------
 
 function onLoad(entries) {
     console.log(entries);
@@ -191,24 +192,7 @@ function imagesQuantityFn(images, totalHits,totalImages) {
 
 
 
-
-//----then-----
-
-// getImageAPI(valueInput)
-    //     .then(responce => {
-
-    //     const imagesData = responce.data
-    //     const images = imagesData.hits
-        
-    //     if (images.length === 0) {
-    //         return alert("Sorry, there are no images matching your search query. Please try again."); 
-    //     };
-
-    //     renderCardsImages(imagesData);
-    // }).catch(err => console.log('err'));
-
-
-
+// -----------------back top scroll btn-----------------------
 let mybutton = document.getElementById("myBtn");
 console.log('mybutton',mybutton);
 
@@ -229,3 +213,22 @@ function topFunction() {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
+
+
+
+
+//----then-----
+
+// getImageAPI(valueInput)
+    //     .then(responce => {
+
+    //     const imagesData = responce.data
+    //     const images = imagesData.hits
+        
+    //     if (images.length === 0) {
+    //         return alert("Sorry, there are no images matching your search query. Please try again."); 
+    //     };
+
+    //     renderCardsImages(imagesData);
+    // }).catch(err => console.log('err'));
+
