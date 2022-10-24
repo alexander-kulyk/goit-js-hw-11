@@ -5,7 +5,7 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css"
 
 
-function renderCardsImages(images,orientationImage) {
+const renderCardsImages = (images,orientationImage) => {
    
     orientationImage === 'vertical'
     ? markupForVerticalImg(images)
@@ -15,7 +15,7 @@ function renderCardsImages(images,orientationImage) {
 
 
 
-function markupForHorizontalImg(images) {
+const markupForHorizontalImg  = images => {
     const markup = images.reduce((acc,image) => {
         const {webformatURL, largeImageURL, tags, likes, views, comments, downloads} = image;
         return acc + `
@@ -46,7 +46,7 @@ function markupForHorizontalImg(images) {
     
 };
 
-function markupForVerticalImg(images) {
+const markupForVerticalImg = images => {
     const markup = images.reduce((acc,image) => {
         const {webformatURL, largeImageURL, tags, likes, views, comments, downloads} = image;
         return acc + `
@@ -76,7 +76,7 @@ function markupForVerticalImg(images) {
     let lightbox = new SimpleLightbox('.gallery a');
 }
 
-function clearContainer() {
+const clearContainer = () => {
     refs.gallary.innerHTML = '';
     
 };

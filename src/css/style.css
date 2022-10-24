@@ -1,3 +1,5 @@
+@import '../../node_modules/modern-normalize/modern-normalize.css';
+
 html {
   scroll-behavior: smooth;
 }
@@ -103,8 +105,8 @@ span{
 
   width: 30px;
   height: 30px;
-  left: 54.7%;
-  top: 2%;
+  right: 730px;
+  top: 20px;
   background-color: rgb(255, 255, 255);
   border: none;
   border-radius: 0;
@@ -167,8 +169,8 @@ span{
   border-radius: 5px; /* Rounded corners */
   font-size: 18px; /* Increase font size */
 
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
 
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.10), 
     0px 4px 4px rgba(0, 0, 0, 0.10), 

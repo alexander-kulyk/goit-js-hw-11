@@ -7,5 +7,6 @@ export default {
     loadMoreBtn: document.querySelector('.load-more'),
     clearInputBtn: document.querySelector('.clear-btn'),
     guard: document.querySelector('.guard'),
-    img: document.querySelector('.gallery__image')
+    img: document.querySelector('.gallery__image'),
+    scrollTopBtn: document.getElementById("myBtn")
 };

@@ -5,6 +5,7 @@ import Notiflix from 'notiflix'
 import "simplelightbox/dist/simple-lightbox.min.css"
 import {getImageAPI, resetPage, addPage} from "./js/api-serves";
 import {renderCardsImages,clearContainer} from "./js/markup-images";
+import {scrollTop} from "./js/scroll-top";
 
 
 let valueInput = '';
@@ -17,40 +18,30 @@ const options = {
     root: null,
     rootMargin: '20px',
     threshold: 1
-}
-
-const observer = new IntersectionObserver(onLoad, options); 
+};
 
 
-refs.form.addEventListener('input',onInputForm);
-refs.form.addEventListener('submit', onSubmitSearch);
-refs.input.addEventListener('input', onInput);
-refs.clearInputBtn.addEventListener('click', onClearInput);
-// refs.loadMoreBtn.addEventListener('click', onloadMoreBtnClick);
-
-console.log(refs.input);
-
+scrollTop();
 
 //-----------------Input-----------------------------------
-function onInputForm(evt) {
+const onInputForm = evt => {
     valueInput = evt.currentTarget.elements.searchQuery.value.trim(); 
+    refs.clearInputBtn.removeAttribute('hidden')
 };
-
-function onInput() {
-    refs.clearInputBtn.removeAttribute('hidden'); 
-};
+refs.form.addEventListener('input',onInputForm);
 
 
-function onClearInput() {
+const onClearInput = () => {
     refs.form.reset();
-    refs.clearInputBtn.setAttribute('hidden',true)   
-    
+    refs.clearInputBtn.setAttribute('hidden',true)
+    valueInput = '';
 };
+refs.clearInputBtn.addEventListener('click', onClearInput);
 
 
 //-----------------Submit------------------------------------
 
-async function onSubmitSearch(evt) {
+const onSubmitSearch = async evt => {
     evt.preventDefault();
     clearContainer();
     resetPage();
@@ -105,11 +96,13 @@ async function onSubmitSearch(evt) {
     
 };
 
+refs.form.addEventListener('submit', onSubmitSearch);
+
 
 // -------------infinite scroll----------------------------------
 
-function onLoad(entries) {
-    console.log(entries);
+const onLoad = entries => {
+    
     entries.forEach(async entry =>{
         if (entry.isIntersecting) {
 
@@ -137,8 +130,14 @@ function onLoad(entries) {
     
 };
 
+const observer = new IntersectionObserver(onLoad, options); 
+
 
 //---------------loadMoreBtn------------------
+
+// refs.loadMoreBtn.addEventListener('click', onloadMoreBtnClick);
+
+
 // async function onloadMoreBtnClick() {
     
 //     Notiflix.Loading.pulse('Loading...');
@@ -171,7 +170,6 @@ function onLoad(entries) {
 function imagesQuantityFn(images, totalHits,totalImages) {
     
     imagesQuantity = imagesQuantity + images.length;
-    console.log(imagesQuantity);
         
     if (imagesQuantity > totalHits) {
 
@@ -189,32 +187,6 @@ function imagesQuantityFn(images, totalHits,totalImages) {
 
     };
 };
-
-
-
-// -----------------back top scroll btn-----------------------
-let mybutton = document.getElementById("myBtn");
-console.log('mybutton',mybutton);
-
-mybutton.addEventListener('click',topFunction )
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
-  }
-}
-
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-  document.body.scrollTop = 0; // For Safari
-  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
-
-
 
 
 //----then-----
